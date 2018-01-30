@@ -8,9 +8,6 @@ var scoreText;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
 })
-var slower = for (var i = 0; i < 10; i++) {
-  slower = i;
-}
 
 //functions
 function createMinimizedItem(x, y, image) {
@@ -74,7 +71,7 @@ var GameState = {
     this.load.image("rightFloat", "assets/bg/png/Tiles/15.png")
     this.load.image("star", "assets/star.png")
     this.load.image("stone", "assets/bg/png/Object/Stone.png")
-    this.load.image("crate", "assets/bg/png/Object/Crate.png")
+    this.load.spritesheet("crate", "assets/bg/png/Object/Crate.png")
     this.load.image("tree", "assets/bg/png/Object/Tree_1.png")
     this.load.spritesheet("dude", "assets/dude.png", 32, 48)
   },
@@ -96,9 +93,6 @@ var GameState = {
     platforms.enableBody = true;
     crate.enableBody = true;
 
-    //make crates slippery
-    this.crates.setAll("body.velocity.x", 100 * 0,5)
-
     //creatingGround
     createMinimizedItem(0, bgHeight - 60, "leftTile");
 
@@ -114,8 +108,8 @@ var GameState = {
 
     //Creating floating tiles
     createPlatform(197, 350, "leftFloat", "middleFloat", "rightFloat")
-    // createPlatform(322, 550, "leftFloat", "middleFloat", "rightFloat")
-    createPlatform(547, 450, "leftFloat", "middleFloat", "rightFloat" )
+    createPlatform(322, 550, "leftFloat", "middleFloat", "rightFloat")
+    // createPlatform(547, 450, "leftFloat", "middleFloat", "rightFloat" )
 
     //add the character
     player = game.add.sprite(32, game.world.height - 150, "dude");
@@ -166,7 +160,10 @@ var GameState = {
     game.physics.arcade.collide(crate, platforms);
 
     //make crate move if touched by player
-    game.physics.arcade.collide(crate, player);
+    var playerHitCrate = game.physics.arcade.collide(crate, player);
+
+    //make crate slow
+    game.physics.arcade.computeVelocity(crate, 20, .5, 0.5)
 
     //make player move
     player.body.velocity.x = 0;
@@ -187,6 +184,10 @@ var GameState = {
 
     //allow player to jump if touching ground
     if (cursors.up.isDown && player.body.touching.down && playerHitPlatform) {
+      player.body.velocity.y = -400;
+    }
+
+    if (cursors.up.isDown && player.body.touching.down && playerHitCrate) {
       player.body.velocity.y = -400;
     }
   }
