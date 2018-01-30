@@ -8,6 +8,9 @@ var scoreText;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
 })
+var slower = for (var i = 0; i < 10; i++) {
+  slower = i;
+}
 
 //functions
 function createMinimizedItem(x, y, image) {
@@ -93,6 +96,9 @@ var GameState = {
     platforms.enableBody = true;
     crate.enableBody = true;
 
+    //make crates slippery
+    this.crates.setAll("body.velocity.x", 100 * 0,5)
+
     //creatingGround
     createMinimizedItem(0, bgHeight - 60, "leftTile");
 
@@ -108,7 +114,7 @@ var GameState = {
 
     //Creating floating tiles
     createPlatform(197, 350, "leftFloat", "middleFloat", "rightFloat")
-    createPlatform(322, 550, "leftFloat", "middleFloat", "rightFloat")
+    // createPlatform(322, 550, "leftFloat", "middleFloat", "rightFloat")
     createPlatform(547, 450, "leftFloat", "middleFloat", "rightFloat" )
 
     //add the character
@@ -160,9 +166,7 @@ var GameState = {
     game.physics.arcade.collide(crate, platforms);
 
     //make crate move if touched by player
-    if (game.physics.arcade.collide(crate, player)) {
-      
-    }
+    game.physics.arcade.collide(crate, player);
 
     //make player move
     player.body.velocity.x = 0;
