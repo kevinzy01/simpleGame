@@ -3,7 +3,9 @@ var platforms;
 var player;
 var cursor;
 var stars;
-var score = 0;
+var crate;
+var starCount = 0;
+var totalStars = 0;
 var scoreText;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
@@ -28,12 +30,23 @@ function createItem(x, y, image) {
 }
 
 function createCrate(x, y, image) {
-  var item = crate.create(x, y, image);
+  var item = crates.create(x, y, image);
   item.body.immovable = false;
   //add physics to item
   item.body.gravity.y = 500;
   item.body.collideWorldBounds = true;
   game.physics.arcade.enable(item);
+  item.body.drag.x = 100;
+}
+
+function create3Stars(x, y) {
+  for (var i = 250; i < 370; i+= 40) {
+    //create a star inside star group
+    var star = stars.create(i + x, y, "star")
+    //make stars static
+    star.body.gravity.y = 0;
+    totalStars++;
+  }
 }
 
 function createPlatform(x, y, leftTile, middleTile, rightTile) {
@@ -52,8 +65,8 @@ function collectStar (player, star) {
   //remove star
   star.kill()
   //add 10 points to score
-  score += 10;
-  scoreText.text = "Score: " + score
+  starCount += 1;
+  scoreText.text = "Stars: " + starCount + " / " + totalStars;
   //add star sound
   starSound.play()
 };
@@ -61,7 +74,7 @@ function collectStar (player, star) {
 //first game state
 var GameState = {
   preload: function () {
-    this.load.image("catIdle", "assets/characters/cat/Idle(1).png")
+    this.load.image("fullTree", "assets/bg/png/Object/Tree_2.png")
     this.load.image("bg", "assets/bg/png/BG/BG.png")
     this.load.image("leftTile", "assets/bg/png/Tiles/1.png")
     this.load.image("middleTile", "assets/bg/png/Tiles/2.png")
@@ -87,11 +100,11 @@ var GameState = {
 
     //platforms that is possible to jump on
     platforms = this.add.group();
-    crate = this.add.group();
+    crates = this.add.group();
 
     //enable physics for any object created in the group;
     platforms.enableBody = true;
-    crate.enableBody = true;
+    crates.enableBody = true;
 
     //creatingGround
     createMinimizedItem(0, bgHeight - 60, "leftTile");
@@ -104,12 +117,12 @@ var GameState = {
 
     //creating obstacles
     createMaximizedItem(258, 610, "stone");
-    createCrate(386, 450, "crate");
 
     //Creating floating tiles
     createPlatform(197, 350, "leftFloat", "middleFloat", "rightFloat")
     createPlatform(322, 550, "leftFloat", "middleFloat", "rightFloat")
-    // createPlatform(547, 450, "leftFloat", "middleFloat", "rightFloat" )
+    createPlatform(547, 450, "leftFloat", "middleFloat", "rightFloat" )
+    createPlatform(500, 185, "leftFloat", "middleFloat", "rightFloat" )
 
     //add the character
     player = game.add.sprite(32, game.world.height - 150, "dude");
@@ -133,20 +146,11 @@ var GameState = {
     stars = this.add.group();
     stars.enableBody = true;
 
-    //creating stars
-    for (var i = 250; i < 330; i+= 40) {
-      var star = stars.create(i + 55, 510 , "star");
-      star.body.gravity.y = 0;
-    }
+    create3Stars(275, 410);
+    create3Stars(55, 510);
 
-    for (var i = 250; i < 370; i+= 40) {
-      //create a star inside star group
-      var star = stars.create(i + 275, 410, "star")
-      //make stars static
-      star.body.gravity.y = 0;
-    }
     //add a score
-    scoreText = game.add.text(16, 16, "Score: 0" , {fontSize: "32px", fill: "#000"})
+    scoreText = game.add.text(16, 16, "Stars: 0 / " + totalStars , {fontSize: "32px", fill: "#000"})
   },
 
   update: function () {
@@ -157,13 +161,13 @@ var GameState = {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
     //collide crates with world and player
-    game.physics.arcade.collide(crate, platforms);
+    game.physics.arcade.collide(crates, platforms);
 
     //make crate move if touched by player
-    var playerHitCrate = game.physics.arcade.collide(crate, player);
+    var playerHitCrate = game.physics.arcade.collide(crates, player);
 
     //make crate slow
-    game.physics.arcade.computeVelocity(crate, 20, .5, 0.5)
+    // game.physics.arcade.acceleration(crates, 20)
 
     //make player move
     player.body.velocity.x = 0;
