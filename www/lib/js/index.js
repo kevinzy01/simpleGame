@@ -10,6 +10,8 @@ var totalDia = 0;
 var starCount = 0;
 var totalStars = 0;
 var scoreText;
+var decoration;
+var buttons;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
 })
@@ -103,8 +105,27 @@ function collectDia (player, diamonds) {
 //start screen
 var startScreen = {
   preload: function () {
-    this.load.image()
-  }
+    this.load.image("bg", "assets/bg/platform/BG/BG.png")
+    this.load.image("tree", "assets/bg/platform/Object/Tree_1.png")
+    this.load.image("stone", "assets/bg/platform/Object/Stone.png")
+    this.load.image("stone", "assets/bg/platform/Object/Stone.png")
+    this.load.image("start", "assets/Button.png")
+  },
+
+  create: function () {
+    // adding bg
+    var bg = this.add.sprite(0, 0, "bg");
+    bgWidth = bg.width;
+    bgHeight = bg.height;
+
+    // adding decoration & buttons
+    decoration = this.add.group();
+    platforms = this.add.group();
+
+    // adding the buttons
+    createMinimizedItem(bgWidth / 2, bgHeight / 2, "start")
+  },
+
 }
 
 //first game screen
@@ -244,6 +265,6 @@ var startScreen = {
     }
   };
 
-game.state.add("firstScreen", firstScreen);
+game.state.add("startScreen", startScreen);
 // game.state.add("GameState", GameState);
-game.state.start("firstScreen")
+game.state.start("startScreen")
