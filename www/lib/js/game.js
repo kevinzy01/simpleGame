@@ -1,9 +1,9 @@
-var game = new Phaser.Game(1000, 750, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(0, 0, Phaser.AUTO, 'gameDiv');
 
-game.state.add("boot", bootState);
-game.state.add("load", loadState);
+// game.state.add("boot", bootState);
+game.state.add("screen1", screen1);
 game.state.add("menu", menuState);
-game.state.add("play", playState);
-game.state.add("win", winState);
+// game.state.add("play", playState);
+// game.state.add("win", winState);
 
-game.state.start("boot")
+game.state.start("menu")
