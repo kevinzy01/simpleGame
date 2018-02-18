@@ -16,10 +16,6 @@ function createItem(x, y, image) {
   item.body.immovable = true;
 }
 
-function createButton() {
-
-}
-
 function createCrate(x, y, image) {
   var item = crates.create(x, y, image);
   item.body.immovable = false;
@@ -50,14 +46,14 @@ function create2Stars(x, y) {
   }
 }
 
-function createDiamond(x, y) {
+function createDiamond(x, y, scr) {
     var diamond = diamonds.create(x, y, "diamond");
     //add 1 to diamonds count
     totalDia +=  1;
     //make diamond bigger
     diamond.scale.setTo(1.25, 1.25);
     // start next screen
-    game.state.start("")
+    game.state.start('"' + scr + '"')
 };
 
 function createPlatform(x, y, leftTile, middleTile, rightTile) {
