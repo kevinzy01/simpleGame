@@ -22,6 +22,6 @@ var loadState = {
 
   },
   create: function () {
-    game.state.start("menu");
+    game.state.start("screen1");
   }
 }

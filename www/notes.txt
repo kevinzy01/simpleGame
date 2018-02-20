@@ -1,2 +1,2 @@
--- makes something bounce uo and down --
+-- makes something bounce up and down --
 game.add.tween(logo2.cameraOffset).to( { y: 400 }, 2000, Phaser.Easing.Back.InOut, true, 0, 2000, true);

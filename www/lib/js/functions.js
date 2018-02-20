@@ -52,8 +52,6 @@ function createDiamond(x, y, scr) {
     totalDia +=  1;
     //make diamond bigger
     diamond.scale.setTo(1.25, 1.25);
-    // start next screen
-    game.state.start('"' + scr + '"')
 };
 
 function createPlatform(x, y, leftTile, middleTile, rightTile) {
@@ -78,7 +76,7 @@ function collectStar (player, stars) {
   starSound.play()
 };
 
-function collectDia (player, diamonds) {
+function collectDia (player, diamonds, scr) {
   //remove star
   diamonds.kill()
   //add 10 points to score
