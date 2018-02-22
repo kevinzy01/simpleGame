@@ -4,8 +4,6 @@ var cursor;
 var spacebar;
 var stars;
 var diamonds;
-var diaCount = 0;
-var totalDia = 0;
 var starCount = 0;
 var totalStars = 0;
 var scoreText;
@@ -71,7 +69,6 @@ var starSound = new Howl({
 
       //add controls
         cursors = this.input.keyboard.createCursorKeys();
-        spacebar = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
         //adding diamond
         diamonds = this.add.group();
@@ -120,10 +117,6 @@ var starSound = new Howl({
 
         //allow player to jump if touching ground
         if (cursors.up.isDown && player.body.touching.down && playerHitPlatform) {
-          player.body.velocity.y = -400;
-        }
-
-        if (spacebar.isDown && player.body.touching.down && playerHitPlatform) {
           player.body.velocity.y = -400;
         }
       }

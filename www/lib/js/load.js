@@ -22,6 +22,6 @@ var loadState = {
 
   },
   create: function () {
-    game.state.start("screen1");
+    game.state.start("screen2");
   }
 }

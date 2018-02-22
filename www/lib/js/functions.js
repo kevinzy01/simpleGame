@@ -48,8 +48,6 @@ function create2Stars(x, y) {
 
 function createDiamond(x, y, scr) {
     var diamond = diamonds.create(x, y, "diamond");
-    //add 1 to diamonds count
-    totalDia +=  1;
     //make diamond bigger
     diamond.scale.setTo(1.25, 1.25);
 };
@@ -76,10 +74,9 @@ function collectStar (player, stars) {
   starSound.play()
 };
 
-function collectDia (player, diamonds, scr) {
+function collectDia (player, diamonds) {
   //remove star
   diamonds.kill()
-  //add 10 points to score
-  diaCount += 1;
   //add diamond sound
+  game.state.start("screen2")
 };
