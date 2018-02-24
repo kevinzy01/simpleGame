@@ -8,6 +8,8 @@ var starCount = 0;
 var totalStars = 0;
 var scoreText;
 var decoration;
+var crate;
+var crates;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
 });
@@ -26,6 +28,7 @@ var screen2 = {
 
     //platforms that is possible to jump on
     platforms = this.add.group();
+    crates = this.add.group();
 
     //enable physics for any object created in the group;
     platforms.enableBody = true;
@@ -38,6 +41,10 @@ var screen2 = {
     };
 
     createMinimizedItem(bgWidth - 65, bgHeight - 60, "rightTile");
+
+    // adding crates
+    // createCrate(300, 300, "crate")
+    createCrate(300, 300, "crate");
 
     // adding player
     player = game.add.sprite(32, game.world.height - 150, "dude");
@@ -64,6 +71,7 @@ var screen2 = {
   update: function () {
 
     var playerHitPlatform = game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(crates, platforms);
 
     //check if player overlaps stars
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
@@ -91,6 +99,6 @@ var screen2 = {
     //allow player to jump if touching ground
     if (cursors.up.isDown && player.body.touching.down && playerHitPlatform) {
       player.body.velocity.y = -400;
-    }
+    };
   }
 }

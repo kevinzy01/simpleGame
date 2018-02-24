@@ -1,35 +1,45 @@
 //functions
 function createMinimizedItem(x, y, image) {
-  var item = platforms.create(x, y, image);
+  let item = platforms.create(x, y, image);
   item.scale.setTo(.5, .5);
   item.body.immovable = true;
 }
 
 function createMaximizedItem(x, y, image) {
-  var item = platforms.create(x, y, image);
+  let item = platforms.create(x, y, image);
   item.scale.setTo(1.5, 1.5);
   item.body.immovable = true;
 }
 
 function createItem(x, y, image) {
-  var item = platforms.create(x, y, image);
+  let item = platforms.create(x, y, image);
   item.body.immovable = true;
 }
 
 function createCrate(x, y, image) {
-  var item = crates.create(x, y, image);
+  let item = platforms.create(x, y, image);
+  //add physics to crate
+  game.physics.arcade.enable(item);
   item.body.immovable = false;
-  //add physics to item
   item.body.gravity.y = 500;
   item.body.collideWorldBounds = true;
-  game.physics.arcade.enable(item);
   item.body.drag.x = 100;
 }
+
+// function createCrate(x, y, image) {
+//   let crate = crates.create(x, y, image);
+//   this.body.immovable = false;
+//   //add physics to crate
+//   this.body.gravity.y = 500;
+//   this.body.collideWorldBounds = true;
+//   game.physics.arcade.enable(crate);
+//   this.body.drag.x = 100;
+// }
 
 function create3Stars(x, y) {
   for (var i = 250; i < 370; i+= 40) {
     //create a star inside star group
-    var star = stars.create(i + x, y, "star")
+    let star = stars.create(i + x, y, "star")
     //make stars static
     star.body.gravity.y = 0;
     totalStars++;
@@ -39,7 +49,7 @@ function create3Stars(x, y) {
 function create2Stars(x, y) {
   for (var i = 250; i < 330; i+= 40) {
     //create a star inside star group
-    var star = stars.create(i + x, y, "star")
+    let star = stars.create(i + x, y, "star")
     //make stars static
     star.body.gravity.y = 0;
     totalStars++;
@@ -47,21 +57,21 @@ function create2Stars(x, y) {
 }
 
 function createDiamond(x, y, scr) {
-    var diamond = diamonds.create(x, y, "diamond");
+    let diamond = diamonds.create(x, y, "diamond");
     //make diamond bigger
     diamond.scale.setTo(1.25, 1.25);
 };
 
 function createPlatform(x, y, leftTile, middleTile, rightTile) {
-  var plat = platforms.create(x, y, middleTile);
+  let plat = platforms.create(x, y, middleTile);
   plat.body.immovable = true;
   plat.scale.setTo(.5, .5);
-  var plat = platforms.create(x - 64, y, leftTile );
-  plat.body.immovable = true;
-  plat.scale.setTo(.5, .5);
-  var plat = platforms.create(x + 64, y, rightTile);
-  plat.body.immovable = true;
-  plat.scale.setTo(.5, .5);
+  let plat1 = platforms.create(x - 64, y, leftTile );
+  plat1.body.immovable = true;
+  plat1.scale.setTo(.5, .5);
+  let plat2 = platforms.create(x + 64, y, rightTile);
+  plat2.body.immovable = true;
+  plat2.scale.setTo(.5, .5);
 }
 
 function collectStar (player, stars) {
