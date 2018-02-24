@@ -10,6 +10,7 @@ var scoreText;
 var decoration;
 var crate;
 var crates;
+var water;
 var starSound = new Howl({
   src: ["assets/starSound.mp3"]
 });
@@ -29,6 +30,7 @@ var screen2 = {
     //platforms that is possible to jump on
     platforms = this.add.group();
     crates = this.add.group();
+    water = this.add.group();
 
     //enable physics for any object created in the group;
     platforms.enableBody = true;
@@ -36,18 +38,29 @@ var screen2 = {
     //  adding ground
     createMinimizedItem(0, bgHeight - 60, "leftTile");
 
-    for (var i = 64; i < bgWidth - 100; i+=64) {
+    for (var i = 64; i < bgWidth - 500; i+=64) {
+      createMinimizedItem(i, bgHeight - 60, "middleTile");
+    };
+
+    for (var i = 830; i < bgWidth - 64; i+=64) {
       createMinimizedItem(i, bgHeight - 60, "middleTile");
     };
 
     createMinimizedItem(bgWidth - 65, bgHeight - 60, "rightTile");
 
+    // adding water
+    for (var i = 511; i < bgWidth - 200 ; i+=64) {
+      createMinimizedWater(i, bgHeight - 30, "water");
+    };
+
     // adding crates
-    // createCrate(300, 300, "crate")
     createCrate(300, 300, "crate");
 
+    // adding platforms
+    createPlatform(300, 400, "leftFloat", "middleFloat", "rightFloat")
+
     // adding player
-    player = game.add.sprite(32, game.world.height - 150, "dude");
+    player = game.add.sprite(700, game.world.height - 150, "dude");
 
     //enable physics on character
     game.physics.arcade.enable(player);
@@ -71,13 +84,17 @@ var screen2 = {
   update: function () {
 
     var playerHitPlatform = game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(crates, platforms);
+    var crateHitPlatform = game.physics.arcade.collide(crates, platforms);
+    var playerHitCrate = game.physics.arcade.collide(player, crates);
 
     //check if player overlaps stars
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
     //check if player overlaps diamond
     game.physics.arcade.overlap(player, diamonds, collectDia, null, this);
+
+    // check if player hits water
+    game.physics.arcade.overlap(player, water, killPlayer, null, this)
 
     //make player move
     player.body.velocity.x = 0;

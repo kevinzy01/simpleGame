@@ -5,6 +5,11 @@ function createMinimizedItem(x, y, image) {
   item.body.immovable = true;
 }
 
+function createMinimizedWater(x, y, image) {
+  let item = water.create(x, y, image);
+  item.scale.setTo(.5, .5);
+}
+
 function createMaximizedItem(x, y, image) {
   let item = platforms.create(x, y, image);
   item.scale.setTo(1.5, 1.5);
@@ -17,24 +22,14 @@ function createItem(x, y, image) {
 }
 
 function createCrate(x, y, image) {
-  let item = platforms.create(x, y, image);
+  let item = crates.create(x, y, image);
   //add physics to crate
-  game.physics.arcade.enable(item);
+  game.physics.arcade.enable(crates);
   item.body.immovable = false;
   item.body.gravity.y = 500;
   item.body.collideWorldBounds = true;
   item.body.drag.x = 100;
 }
-
-// function createCrate(x, y, image) {
-//   let crate = crates.create(x, y, image);
-//   this.body.immovable = false;
-//   //add physics to crate
-//   this.body.gravity.y = 500;
-//   this.body.collideWorldBounds = true;
-//   game.physics.arcade.enable(crate);
-//   this.body.drag.x = 100;
-// }
 
 function create3Stars(x, y) {
   for (var i = 250; i < 370; i+= 40) {
@@ -90,3 +85,10 @@ function collectDia (player, diamonds) {
   //add diamond sound
   game.state.start("screen2")
 };
+
+function killPlayer(player, water) {
+  // kill player
+  player.kill();
+  //reload level
+  game.state.reload()
+}

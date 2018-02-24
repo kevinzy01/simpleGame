@@ -11,6 +11,7 @@ var loadState = {
     this.load.spritesheet("fullTree", "assets/bg/platform/Object/Tree_2.png")
     this.load.image("crate", "assets/bg/platform/Object/Crate.png")
     this.load.image("leftTile", "assets/bg/platform/Tiles/1.png")
+    this.load.image("water", "assets/bg/platform/Tiles/17.png")
     this.load.image("middleTile", "assets/bg/platform/Tiles/2.png")
     this.load.image("rightTile", "assets/bg/platform/Tiles/3.png")
     this.load.image("leftFloat", "assets/bg/platform/Tiles/13.png")
