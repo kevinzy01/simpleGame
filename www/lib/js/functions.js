@@ -21,6 +21,11 @@ function createItem(x, y, image) {
   item.body.immovable = true;
 }
 
+function createAid(x, y, image) {
+  let item = platforms.create(x, y, image);
+  item.body.immovable = true;
+}
+
 function createCrate(x, y, image) {
   let item = crates.create(x, y, image);
   //add physics to crate
@@ -31,8 +36,12 @@ function createCrate(x, y, image) {
   item.body.drag.x = 100;
 }
 
+function createSign(x, y, image) {
+  let sign = signs.create(x, y, image);
+}
+
 function create3Stars(x, y) {
-  for (var i = 250; i < 370; i+= 40) {
+  for (var i = 0; i < 120; i+= 40) {
     //create a star inside star group
     let star = stars.create(i + x, y, "star")
     //make stars static
@@ -46,13 +55,12 @@ function create2Stars(x, y) {
     //create a star inside star group
     let star = stars.create(i + x, y, "star")
     //make stars static
-    star.body.gravity.y = 0;
     totalStars++;
   }
 }
 
 function createDiamond(x, y, scr) {
-    let diamond = diamonds.create(x, y, "diamond");
+    let diamond = diamonds.create(x, y, scr);
     //make diamond bigger
     diamond.scale.setTo(1.25, 1.25);
 };
@@ -86,9 +94,22 @@ function collectDia (player, diamonds) {
   game.state.start("screen2")
 };
 
-function killPlayer(player, water) {
+function collectDia2 (player, diamonds) {
+  //remove star
+  diamonds.kill()
+  //add diamond sound
+  // game.state.start("screen3")
+};
+
+function splash() {
+  waterSound.play();
+}
+
+function waterPlayer(player, water) {
   // kill player
   player.kill();
+  splash()
   //reload level
-  game.state.reload()
-}
+  game.state.start(game.state.current)
+  hp -= 1.0;
+};

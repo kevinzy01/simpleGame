@@ -35,6 +35,7 @@ var menuState = {
         console.log("pressed");
       };
 
+
       level = game.add.button(325, 380, "level", openSettings, this, 2, 1, 0);
 
       level.onInputUp.add(up, this);

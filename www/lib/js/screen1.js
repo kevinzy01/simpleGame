@@ -1,18 +1,8 @@
-var platforms;
-var player;
 var cursor;
 var spacebar;
-var stars;
-var diamonds;
-var starCount = 0;
-var totalStars = 0;
-var scoreText;
-var decoration;
 var start;
 var level;
-var starSound = new Howl({
-  src: ["assets/starSound.mp3"]
-});
+
 
 //first game screen
   var screen1 = {
@@ -78,14 +68,19 @@ var starSound = new Howl({
         //adding stars //substract 272 from central platform x
         stars = this.add.group();
         stars.enableBody = true;
-        create3Stars(50, 510);
-        create3Stars(275, 410);
-        create3Stars(-75, 310);
-        create3Stars(228, 160);
+        create3Stars(302, 510);
+        create3Stars(527, 410);
+        create3Stars(177, 310);
+        create3Stars(480, 160);
 
         //add a score
         scoreText = game.add.text(16, 16, "Stars: 0 / " + totalStars , {fontSize: "32px", fill: "#000"})
-        scoreText.fixedToCamera= true;
+        scoreText.fixedToCamera = true;
+
+        // add hp
+        hpText = game.add.text(250, 16, "HP: " + hp, {fontSize: "32px", fill: "#000"})
+        hpText.fixedToCamera = true;
+
       },
 
       update: function () {

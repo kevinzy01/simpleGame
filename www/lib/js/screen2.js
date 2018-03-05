@@ -1,20 +1,11 @@
-var platforms;
-var player;
 var cursor;
 var spacebar;
-var stars;
-var diamonds;
-var starCount = 0;
-var totalStars = 0;
-var scoreText;
-var decoration;
-var crate;
-var crates;
-var water;
-var starSound = new Howl({
-  src: ["assets/starSound.mp3"]
-});
 
+var crate;
+
+function signText(x, y, text, styling) {
+  let info = game.add.text(x, y, text, styling)
+};
 
 var screen2 = {
   create: function () {
@@ -31,9 +22,14 @@ var screen2 = {
     platforms = this.add.group();
     crates = this.add.group();
     water = this.add.group();
+    diamonds = this.add.group()
+    stars = this.add.group()
 
     //enable physics for any object created in the group;
     platforms.enableBody = true;
+    water.enableBody = true;
+    diamonds.enableBody = true;
+    stars.enableBody = true;
 
     //  adding ground
     createMinimizedItem(0, bgHeight - 60, "leftTile");
@@ -54,13 +50,20 @@ var screen2 = {
     };
 
     // adding crates
-    createCrate(300, 300, "crate");
+    createCrate(350, 300, "crate");
+
+    // adding diamond
+    createDiamond(890, bgHeight - 110, "diamond")
 
     // adding platforms
-    createPlatform(300, 400, "leftFloat", "middleFloat", "rightFloat")
+    createPlatform(350, 400, "leftFloat", "middleFloat", "rightFloat")
+    createPlatform(100, 540, "leftFloat", "middleFloat", "rightFloat")
 
     // adding player
-    player = game.add.sprite(700, game.world.height - 150, "dude");
+    player = game.add.sprite(350, game.world.height - 150, "dude");
+
+    // adding star
+    create3Stars(80, 500)
 
     //enable physics on character
     game.physics.arcade.enable(player);
@@ -80,6 +83,10 @@ var screen2 = {
     scoreText = game.add.text(16, 16, "Stars: 0 / " + totalStars , {fontSize: "32px", fill: "#000"})
     scoreText.fixedToCamera= true;
 
+    hpText = game.add.text(250, 16, "HP: " + hp, {fontSize: "32px", fill: "#000"})
+
+    game.add.text(225, 220, "Se podrá mover la caja?", {fontSize: "28px", fill: "#000"})
+
   },
   update: function () {
 
@@ -91,10 +98,10 @@ var screen2 = {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
     //check if player overlaps diamond
-    game.physics.arcade.overlap(player, diamonds, collectDia, null, this);
+    game.physics.arcade.overlap(player, diamonds, collectDia2, null, this);
 
     // check if player hits water
-    game.physics.arcade.overlap(player, water, killPlayer, null, this)
+    game.physics.arcade.overlap(player, water, waterPlayer, null, this)
 
     //make player move
     player.body.velocity.x = 0;
@@ -117,5 +124,12 @@ var screen2 = {
     if (cursors.up.isDown && player.body.touching.down && playerHitPlatform) {
       player.body.velocity.y = -400;
     };
+
+    if (cursors.up.isDown && player.body.touching.down && playerHitCrate) {
+      player.body.velocity.y = -400;
+    };
+    if (hp === 0) {
+      game.state.start("gameOver")
+    }
   }
 }
